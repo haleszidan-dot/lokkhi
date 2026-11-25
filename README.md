@@ -11,19 +11,24 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   min-height: 100vh;
   min-height: 100dvh;
   overflow-x: hidden;
-  overflow-y: auto;
   font-family: 'Trebuchet MS', sans-serif;
   background: radial-gradient(circle at top, #8d174e, #380020 65%, #160014);
   color: white;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   position: relative;
+  padding: 24px 0 48px;
 }
 
 /* Romantic stickers */
@@ -44,26 +49,23 @@ body {
 .s6 { top: 43%; right: 3%; animation-delay: .6s; }
 
 @keyframes dance {
-  0%, 100% {
-    transform: rotate(-12deg) translateY(0);
-  }
-  50% {
-    transform: rotate(12deg) translateY(-14px);
-  }
+  0%, 100% { transform: rotate(-12deg) translateY(0); }
+  50% { transform: rotate(12deg) translateY(-14px); }
 }
 
+/* Main container */
 .container {
   position: relative;
   z-index: 3;
   width: 90%;
-  max-width: 430px;
+  max-width: 440px;
   padding: 28px 20px;
-  margin: 25px auto;
-  border: 1px solid rgba(255,255,255,.2);
+  margin: 20px auto;
+  border: 1px solid rgba(255,255,255,.22);
   border-radius: 28px;
-  background: rgba(50,0,30,.65);
+  background: rgba(50,0,30,.68);
   backdrop-filter: blur(9px);
-  box-shadow: 0 0 35px rgba(255,30,130,.3);
+  box-shadow: 0 0 35px rgba(255,30,130,.32);
 }
 
 h1 {
@@ -142,7 +144,7 @@ button {
 @keyframes appear {
   from {
     opacity: 0;
-    transform: scale(.6);
+    transform: scale(.92);
   }
   to {
     opacity: 1;
@@ -169,7 +171,7 @@ button {
   to { transform: rotate(15deg) translateY(-15px); }
 }
 
-/* Animated message lines */
+/* Animated messages */
 .message-area {
   margin: 15px 0;
 }
@@ -195,13 +197,27 @@ button {
   animation: lineFadeOut .8s ease forwards;
 }
 
-/* All lines stay visible after animation */
+/* FINAL FONT - ALL TEXT SHOWN TOGETHER */
 .message-line.final-visible {
   display: block;
+  width: 100%;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(19px, 4.8vw, 23px);
+  font-style: italic;
+  font-weight: 400;
+
+  line-height: 1.75;
+  letter-spacing: .3px;
+  color: #ffe1ef;
+
+  text-shadow: 0 0 8px rgba(255,180,220,.2);
+
+  margin: 12px 0;
   opacity: 1;
-  transform: none;
   filter: none;
-  animation: finalAppear 1s ease both;
+  transform: none;
+  animation: finalAppear 0.9s ease both;
 }
 
 @keyframes lineFadeIn {
@@ -233,7 +249,7 @@ button {
 @keyframes finalAppear {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -241,14 +257,17 @@ button {
   }
 }
 
-/* Final love note */
+/* Love note */
 .love-note {
   display: none;
-  font-size: 15px;
-  line-height: 1.7;
-  color: #ffd5e9;
-  margin-top: 17px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 19px;
   font-style: italic;
+  font-weight: 400;
+  line-height: 1.8;
+  letter-spacing: .3px;
+  color: #ffe1ef;
+  margin-top: 22px;
 }
 
 .love-note.show {
@@ -256,12 +275,16 @@ button {
   animation: lineFadeIn 1.2s ease forwards;
 }
 
+/* Signature */
 .signature {
   display: none;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 23px;
-  font-weight: 1000;
+  font-style: italic;
+  font-weight: 400;
   color: #ffacd6;
-  margin-top: 15px;
+  line-height: 1.6;
+  margin-top: 20px;
 }
 
 .signature.show {
@@ -280,6 +303,75 @@ button {
   animation: lineFadeIn 1.5s ease forwards;
 }
 
+/* Scroll prompt & romantic photo frame */
+.scroll-photo-section {
+  display: none;
+  margin-top: 28px;
+  padding-top: 12px;
+}
+
+.scroll-photo-section.ready {
+  display: block;
+  animation: lineFadeIn 1s ease forwards;
+}
+
+.scroll-hint {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: #ffc5e2;
+  margin-bottom: 18px;
+  opacity: 0.9;
+  animation: gentleBounce 2s infinite;
+}
+
+@keyframes gentleBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+.photo-frame {
+  position: relative;
+  border-radius: 22px;
+  padding: 6px;
+  background: linear-gradient(135deg, rgba(255, 110, 185, 0.65), rgba(255, 200, 230, 0.25), rgba(190, 20, 110, 0.65));
+  box-shadow:
+    0 12px 32px rgba(255, 22, 139, 0.42),
+    0 0 28px rgba(255, 120, 195, 0.35),
+    0 0 55px rgba(175, 10, 95, 0.45);
+  opacity: 0;
+  transform: translateY(34px) scale(0.96);
+  transition: opacity 1.1s ease, transform 1.1s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s ease;
+}
+
+.photo-frame.in-view {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.photo-frame:hover {
+  box-shadow:
+    0 16px 40px rgba(255, 35, 150, 0.58),
+    0 0 38px rgba(255, 145, 210, 0.5),
+    0 0 65px rgba(210, 20, 120, 0.55);
+}
+
+.photo-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 17px;
+  box-shadow: inset 0 0 24px rgba(255, 160, 215, 0.25);
+}
+
+.photo-caption {
+  margin-top: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: italic;
+  font-size: 16px;
+  color: #ffd6ea;
+  text-shadow: 0 0 12px rgba(255, 60, 155, 0.45);
+}
+
 /* Celebration stickers */
 .graffiti {
   position: fixed;
@@ -289,17 +381,18 @@ button {
   animation: dance 1.5s infinite ease-in-out;
 }
 
+/* Mobile */
 @media(max-width: 380px) {
   .container {
     padding: 22px 15px;
   }
 
-  .message-line {
-    font-size: 17px;
+  .message-line.final-visible {
+    font-size: 18px;
   }
 
   .love-note {
-    font-size: 13px;
+    font-size: 17px;
   }
 
   .success-title {
@@ -344,7 +437,6 @@ button {
 
   <div class="gift">🎁💃</div>
 
-  <!-- Animated messages -->
   <div class="message-area" id="messageArea">
 
     <div class="message-line">
@@ -391,6 +483,19 @@ button {
 
   <div class="final-hearts" id="finalHearts">
     💋 💞 🥰 💍
+  </div>
+
+  <!-- Scroll-revealed romantic photo -->
+  <div class="scroll-photo-section" id="scrollPhotoSection">
+    <div class="scroll-hint">↓ Scroll down for a special memory ↓</div>
+    <div class="photo-frame" id="photoFrame">
+      <img
+        src="https://res.cloudinary.com/wsouqs9e/image/upload/f_auto,q_auto/1000187342"
+        alt="Our special memory together"
+        loading="lazy"
+      >
+    </div>
+    <div class="photo-caption">Forever &amp; always with you 💖</div>
   </div>
 
 </div>
@@ -445,6 +550,38 @@ noButton.addEventListener("click", function(e) {
 });
 
 
+// Scroll fade-in observer for the photo
+function initPhotoScrollReveal() {
+  const frame = document.getElementById("photoFrame");
+  if (!frame) return;
+
+  const revealIfNearViewport = () => {
+    const rect = frame.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.92) {
+      frame.classList.add("in-view");
+    }
+  };
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(frame);
+  }
+
+  window.addEventListener("scroll", revealIfNearViewport, { passive: true });
+  setTimeout(revealIfNearViewport, 400);
+}
+
+
 // YES celebration
 let started = false;
 
@@ -453,6 +590,7 @@ function sayYes() {
   if (started) return;
   started = true;
 
+  document.body.style.justifyContent = "flex-start";
   document.getElementById("main").style.display = "none";
   document.getElementById("success").style.display = "block";
 
@@ -482,7 +620,7 @@ function sayYes() {
     setTimeout(createHeart, i * 70);
   }
 
-  // One-by-one text animation
+  // One-by-one animation
   const lines = Array.from(
     document.querySelectorAll(".message-line")
   );
@@ -494,25 +632,29 @@ function sayYes() {
 
   function showNextLine() {
 
+    // Animation completed -> show all text together
     if (currentIndex >= lines.length) {
 
-      // SHOW ALL MESSAGES TOGETHER
       lines.forEach((line, index) => {
         line.classList.remove("active", "fade-out");
         line.classList.add("final-visible");
         line.style.animationDelay = (index * 0.12) + "s";
       });
 
-      // Show final love note
       document.getElementById("loveNote").classList.add("show");
 
       setTimeout(() => {
         document.getElementById("signature").classList.add("show");
-      }, 800);
+      }, 700);
 
       setTimeout(() => {
         document.getElementById("finalHearts").classList.add("show");
-      }, 1500);
+      }, 1300);
+
+      setTimeout(() => {
+        document.getElementById("scrollPhotoSection").classList.add("ready");
+        initPhotoScrollReveal();
+      }, 1700);
 
       return;
     }
